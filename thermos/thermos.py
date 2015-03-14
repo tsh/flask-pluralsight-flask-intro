@@ -1,6 +1,8 @@
-from flask import Flask, render_template, url_for
+from datetime import datetime
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'Not really secure secret key. Never use it!'
 
 
 class User:
@@ -12,14 +14,31 @@ class User:
         return "{}. {}.".format(self.firstname[0], self.lastname[0])
 
 
+bookmarks = []
+
+def store_bookmarks(url):
+    bookmarks.append(dict(
+        url=url,
+        user='tsh',
+        date=datetime.utcnow()
+    ))
+
+def new_bookmarks(num):
+    return sorted(bookmarks, key=lambda bm: bm['date'], reverse=True)[:num]
+
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', text={'test': 'test12'})
+    return render_template('index.html', new_bookmarks=new_bookmarks(5))
 
 
-@app.route('/add')
+@app.route('/add', methods=['GET', 'POST'])
 def add():
+    if request.method == 'POST':
+        url = request.form['url']
+        store_bookmarks(url)
+        flash('Stored bookmark "{}"'.format(url))
+        return redirect(url_for('index'))
     return render_template('add.html')
 
 
