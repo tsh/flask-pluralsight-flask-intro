@@ -1,6 +1,8 @@
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash
 
+from forms import BookmarkForm
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Not really secure secret key. Never use it!'
 
@@ -16,10 +18,11 @@ class User:
 
 bookmarks = []
 
-def store_bookmarks(url):
+def store_bookmarks(url, description):
     bookmarks.append(dict(
         url=url,
         user='tsh',
+        description=description,
         date=datetime.utcnow()
     ))
 
@@ -34,12 +37,14 @@ def index():
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    if request.method == 'POST':
-        url = request.form['url']
-        store_bookmarks(url)
-        flash('Stored bookmark "{}"'.format(url))
+    form = BookmarkForm()
+    if form.validate_on_submit():
+        url = form.url.data
+        description = form.description.data
+        store_bookmarks(url, description)
+        flash("Stored {}".format(description))
         return redirect(url_for('index'))
-    return render_template('add.html')
+    return render_template('add.html', form=form)
 
 
 @app.errorhandler(404)

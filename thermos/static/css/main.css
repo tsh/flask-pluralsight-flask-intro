@@ -140,7 +140,7 @@ nav a:hover {
 
 .main aside {
     color: white;
-    padding: 0px 5% 10px;
+    padding: 0 5% 10px;
 }
 
 .footer-container footer {
@@ -161,15 +161,24 @@ nav a:hover {
    ========================================================================== */
 
 /* link styling */
-a {
-    color: #8F540D;
+a,
+a:visited {
+    color: #1E5373;
 }
 a:hover, aside a:hover, aside a:visited:hover {
     color: #D39447;
 }
 
-a:visited {
-    color: #1E5373;
+aside a {
+    color: #FFD6A3;
+}
+
+aside a:hover {
+    color: #F5BB73;
+}
+
+aside a:visited {
+    color: #D39447;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -181,7 +190,6 @@ footer h3,
 footer a,
 footer a:visited {
     color: white;
-
 }
 
 .flashes ul {
@@ -204,6 +212,42 @@ article.flashes {
     margin-bottom: 1em;
 }
 
+/* fix form layout with flashes */
+section {
+    clear: left;
+}
+
+/* bookmark list styling */
+ul.bookmarks {
+    list-style: none none;
+    padding-left: 0;
+}
+
+.bookmark {
+    padding-bottom: .5em;
+    border-top: 1px solid #7EA6BF;
+    padding: 1em 0;
+}
+
+a.header {
+    color: #326786;
+    text-decoration: none;
+    display: block;
+}
+
+a.header h3 {
+    margin: 0 0;
+}
+
+div.info {
+    font-size: .95em;
+    color: #666666;
+}
+
+span.editlinks {
+    float: right;
+}
+
 .error, .error input {
     color: red;
 }
@@ -216,9 +260,22 @@ tr.submit button {
     margin-top: 20px;
 }
 
-input, button {
+input, textarea,
+div.select2-container {
+    width:100%;
+}
+
+input[type="checkbox"],
+input[type="submit"] {
+    width: auto;
+}
+
+input, button, textarea,
+div.select2-container {
     margin-left: 10px;
 }
+
+
 
 /* ==========================================================================
    Media Queries
